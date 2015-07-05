@@ -2,6 +2,7 @@ PSLQ Algorithm
 =========
 
 ## This project is an implementation of [PSLQ Algorithm](http://mathworld.wolfram.com/PSLQAlgorithm.html).
+This project using [Apache Spark](https://github.com/apache/spark) as a calculating engine.
 
 ## How to run
 1. Start sbt. 

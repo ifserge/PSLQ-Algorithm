@@ -4,7 +4,9 @@ version := "1.0"
 
 scalaVersion := "2.11.6"
 
-libraryDependencies += "org.scalatest" % "scalatest_2.10" % "1.9.1" % "test"
-libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4"
+libraryDependencies += "org.apache.spark" %% "spark-core" % "1.4.0"
+libraryDependencies += "org.apache.spark" %% "spark-mllib" % "1.4.0"
+libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+
 
 mainClass in (Compile) := Some("PSLQAlgo")
