@@ -5,35 +5,41 @@
  */
 
 import scala.util.control._
-import org.apache.spark.mllib.linalg._
-import org.apache.spark.mllib.linalg.distributed._
-import org.apache.spark.SparkContext
-import org.apache.spark.SparkContext._
-import org.apache.spark.SparkConf
-import org.apache.spark.rdd.RDD
+import breeze.linalg._
+import breeze.numerics._
 
 object PSLQAlgo extends App {
-  def PreHermitCol(x: Array[Double], s: Array[Double], i: Integer) : Array[Double] = {
-    List.fill(i)(0.0) ++
-    List(s(i+1) / s(i)) ++
-    (for (j <- (i+1) to (x.length-1))
-      yield - x(j) * x(i) / (s(i) * s(i+1))).toList
-  }.toArray
-  def PreHermitMatrix(x: Array[Double], s: Array[Double]) = {
-    for (i <- 0 to (x.length-1)) 
-      yield PreHermitCol(x, s, i)
-  }.transpose
-  val conf = new SparkConf().setAppName("PSLQAlgo").setMaster("local")
-  val sc = new SparkContext(conf)
   val break = new Breaks
   break.breakable{
     do {
       Console.print("PSLQ>")
-      val s = Console.readLine()
-      if (s != "q:"){
-	      val basis = s.split(" ").toList.map(_.toDouble)
-        val partialsums = basis.foldLeft(List(0.0)){ case (l,x) => (l.head + x*x) :: l }
-        val rm = new RowMatrix(sc.makeRDD(PreHermitMatrix(basis.toArray, partialsums.toArray).map(r=>Vectors.dense(r.toArray))))
+      val sIn = Console.readLine()
+      if (sIn != "q:"){
+	      val basis = sIn.split(" ").toList.map(_.toDouble)
+        val sp = basis.reverse.foldLeft(List[Double]()){ 
+          case (l,x) => l match {
+            case Nil => List(abs(x))
+            case _ => sqrt(pow(l.head,2.0) + x*x) :: l 
+          }
+        }
+        val x = basis
+        val s = sp.map(_ / sp.head)
+        val y = x.map(_ / sp.head)
+        val n = x.length
+        //Console.println(x)
+        //Console.println(s)
+        //Console.println(y)
+        val H = DenseMatrix.tabulate(n, n-1) {
+          case (i,j) => if (j < i) -y(j)*y(i) / (s(j+1)*s(j)) else if (i == j && i < n) s(j+1) / s(j) else 0
+        }
+        //Console.println(H)
+        val A = DenseMatrix.eye[Double](n)
+        val B = DenseMatrix.eye[Double](n)
+        for (i <- 2 to n; j <- i-1 to 1 by -1) {
+          val t = floor(0.5 + H(i-1,j-1) / H(j-1,j-1))
+          Console.println(t)
+        }
+
         
       }else break.break()
     } while (true)
