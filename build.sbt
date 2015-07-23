@@ -16,4 +16,4 @@ resolvers ++= Seq(
 )
 
 
-mainClass in (Compile) := Some("PSLQAlgo")
+mainClass in (Compile) := Some("PSLQRepl")

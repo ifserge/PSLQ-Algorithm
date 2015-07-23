@@ -10,3 +10,9 @@ This project using [Apache Spark](https://github.com/apache/spark) and [Breeze](
 3. Type your set of real numbers (for example: -1 3.1415926535 . In this case the algorithm returns the good approximation of pi ). 
 4. PSLQ Algorithm will be applied and [integer relations](http://mathworld.wolfram.com/IntegerRelation.html) would be printed.
 5. Type "q:" without quotas for exit.
+
+## TODO:
+1. Improve parsing. (Should parse "pi", "e", mathematical expression)
+2. Allow user to set accuracy. (It's 1e-6 by default now)
+3. Improve output.
+4. Use Spark for LinAlg.
