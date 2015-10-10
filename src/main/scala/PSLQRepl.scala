@@ -9,18 +9,22 @@ import breeze.linalg._
 import breeze.numerics._
 
 object PSLQRepl extends App {
-  print("PSLQ>")
+  println("""Please input the list of expressions. Type "q:" to quit.""")
+  println("""Type eps:value to set the epsilon value.""")
+  val parserMath = new PSLQParser
   val break = new Breaks
+  var eps = 1e-6
   break.breakable{
     do {
-      val sIn = Console.readLine()
+      val sIn = Console.readLine("PSLQ> ")
+      if (sIn.startsWith("eps:")) {
+        eps = (sIn.drop(4).toDouble)
+      } else
       if (sIn != "q:"){
-	      val basis = sIn.split(" ").toList.map(_.toDouble)
-        val result = PSLQLib.Solve(basis, 1e-6)
+	      val basis = sIn.split(" ").toList.map(parserMath.evaluate(_))
+        val result = PSLQLib.Solve(basis, eps)
         Console.println(result)
       }else break.break()
-
-      Console.print("PSLQ>")
     } while (true)
   }
 }
