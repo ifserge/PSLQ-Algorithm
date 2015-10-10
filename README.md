@@ -12,7 +12,7 @@ This project using [Apache Spark](https://github.com/apache/spark) and [Breeze](
 5. Type "q:" without quotas for exit.
 
 ## TODO:
-1. Done Improve parsing. (Should parse "pi", "e", mathematical expression)
-2. Done Allow user to set accuracy. (It's 1e-6 by default now)
+1. ~~Improve parsing. (Should parse "pi", "e", mathematical expression)~~
+2. ~~Allow user to set accuracy. (It's 1e-6 by default now)~~
 3. Improve output.
 4. Use Spark for LinAlg.
