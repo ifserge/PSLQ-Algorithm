@@ -10,7 +10,7 @@ import breeze.numerics._
 
 object PSLQRepl extends App {
   println("""Please input the list of expressions. Type "q:" to quit.""")
-  println("""Type eps:value to set the epsilon value.""")
+  println("""Type eps:value to set the accuracy value. The default one is 1e-6""")
   val parserMath = new PSLQParser
   val break = new Breaks
   var eps = 1e-6
